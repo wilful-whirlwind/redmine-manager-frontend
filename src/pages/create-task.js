@@ -11,8 +11,34 @@ export class CreateTask extends AbstractPage {
         this.saveInfo = this.saveInfo.bind(this);
         this.createTaskSet = this.createTaskSet.bind(this);
         this.toggleCheckBox = this.toggleCheckBox.bind(this);
-        const trackerListFromRedmine = window.electronAPI.getTrackerList();
-        const versionListFromRedmine = window.electronAPI.getRedmineVersionList();
+        this.setSyncState = this.setSyncState.bind(this);
+        let subTitle = "タスクの追加";
+        let taskName = "";
+        this.state = {
+            callback: this.props.callback,
+            subTitle: subTitle,
+            documentLink: "",
+            pullRequestLink: "",
+            testDocumentLink: "",
+            versionList: [],
+            trackerList: [],
+            createInfo: {
+                tracker_id: null,
+                version_id: null,
+                phase_plan: false,
+                phase_development: true,
+                phase_test: true,
+                task_name: taskName,
+            },
+            taskList: []
+        };
+    }
+
+    async componentDidMount() {
+        const trackerListFromRedmine = await window.electronAPI.getTrackerList();
+        console.log(trackerListFromRedmine);
+        const versionListFromRedmine = await window.electronAPI.getRedmineVersionList();
+        console.log(versionListFromRedmine);
         let trackerList = [];
         let versionList = [];
         if (trackerListFromRedmine.status !== "success") {
@@ -30,33 +56,21 @@ export class CreateTask extends AbstractPage {
         } else {
             versionList = versionListFromRedmine.redmineVersionList;
         }
-        let subTitle;
-        let taskName = "";
+        console.log(versionList);
+        this.setSyncState(versionList, trackerList);
+    }
+
+    setSyncState(versionList, trackerList) {
         let trackerId = trackerList[0].id;
         let versionId = versionList[0].id;
-        if (this.props.id < 1) {
-            subTitle = "タスクの追加";
-        } else {
-            subTitle = "タスクの更新";
-        }
-        this.state = {
-            callback: this.props.callback,
+        this.setState({
             versionList: versionList,
             trackerList: trackerList,
-            subTitle: subTitle,
-            documentLink: "",
-            pullRequestLink: "",
-            testDocumentLink: "",
             createInfo: {
-                phase_plan: false,
-                phase_development: true,
-                phase_test: true,
-                task_name: taskName,
                 tracker_id: trackerId,
                 version_id: versionId
-            },
-            taskList: []
-        };
+            }
+        });
     }
 
     getInputTextValue( name, value ){
@@ -79,6 +93,8 @@ export class CreateTask extends AbstractPage {
     }
 
     renderVersionSelectBox() {
+        console.log("in render")
+        console.log(this.state.versionList)
         const options = this.state.versionList.map(function (version){
             return (<option value={version.id} selected={this.state.createInfo.version_id === version.id}>{version.name}</option>);
         }.bind(this));
@@ -122,46 +138,46 @@ export class CreateTask extends AbstractPage {
         return (
             <table className="table mgr-tbl">
                 <tbody>
-                    <tr>
-                        <th>
-                            <label>タスク名</label>
-                        </th>
-                        <td>
-                            <InputText id="task_name" callback={this.getInputTextValue} />
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>
-                            <label>バージョン</label>
-                        </th>
-                        <td>
-                            {this.renderVersionSelectBox()}
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>
-                            <label>トラッカー</label>
-                        </th>
-                        <td>
-                            {this.renderTrackerSelectBox()}
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>
-                            <label>発生するフェーズ</label>
-                        </th>
-                        <td>
-                            {this.renderIncludeTaskCheckBox()}
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <button type="button" className="btn btn-outline-secondary" onClick={this.createTaskSet}>
-                                登録
-                            </button>
-                        </td>
-                        <td></td>
-                    </tr>
+                <tr>
+                    <th>
+                        <label>タスク名</label>
+                    </th>
+                    <td>
+                        <InputText id="task_name" callback={this.getInputTextValue} />
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        <label>バージョン</label>
+                    </th>
+                    <td>
+                        {this.renderVersionSelectBox()}
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        <label>トラッカー</label>
+                    </th>
+                    <td>
+                        {this.renderTrackerSelectBox()}
+                    </td>
+                </tr>
+                <tr>
+                    <th>
+                        <label>発生するフェーズ</label>
+                    </th>
+                    <td>
+                        {this.renderIncludeTaskCheckBox()}
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <button type="button" className="btn btn-outline-secondary" onClick={this.createTaskSet}>
+                            登録
+                        </button>
+                    </td>
+                    <td></td>
+                </tr>
                 </tbody>
             </table>
         )
