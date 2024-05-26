@@ -8,11 +8,11 @@ export class AbstractPage extends React.Component {
             window.electronAPI = {
                 getTrackerList: async function(resolve, reject){
                     let trackerList = await axios.get('http://localhost:8081/trackers');
-                    return trackerList;
+                    return trackerList.data;
                 },
                 getRedmineVersionList: async function () {
                     let versionList = await axios.get('http://localhost:8081/versions');
-                    return versionList;
+                    return versionList.data;
                 }
             };
         }
