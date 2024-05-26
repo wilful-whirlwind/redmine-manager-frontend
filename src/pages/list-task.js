@@ -1,8 +1,9 @@
 import React from "react";
 import {TitleLabel} from "../components/title-label/title-label";
 import {InputText} from "../components/input-text/input-text";
+import {AbstractPage} from "./abstract-page";
 
-export class ListTask extends React.Component {
+export class ListTask extends AbstractPage {
     constructor(props) {
         super(props);
         this.getInputTextValue = this.getInputTextValue.bind(this);

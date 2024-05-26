@@ -36,30 +36,30 @@ class Top extends React.Component {
 
   render() {
     return (
-        <div class="top container-fluid">
-          <script src="../public/style/style.js"></script>
-          <BrowserRouter>
-            <div class="row" id="content-field">
-              <div class="col-2" id="side-menu-field">
-                <SideMenu />
-              </div>
-              <div class="col-10" id="main-content-field">
-                <Routes>
-                  <Route path="/home" element={<EditRedmineVersion />} />
-                  <Route path="/create-redmine-version" element={<CreateRedmineVersion />} />
-                  <Route path="/list-redmine-version" element={<ListRedmineVersion callback={this.transitionToVersionDetailPage}/>} />
-                  <Route path="/edit-redmine-version" element={<EditRedmineVersion id={this.state.id}/>}/>
-                  <Route path="/list-task" element={<ListTask callback={this.transitionToCreateTaskPage} />} />
-                  <Route path="/create-task" element={<CreateTask id={this.state.task_id} />} />
-                  <Route path="/management" element={<Management />} />
-                  <Route path="/reports" element={<Reports />} />
-                  <Route path="/config" element={<Config />} />
-                  <Route path="/config-redmine" element={<ConfigRedmine />} />
-                </Routes>
-              </div>
+      <div class="top container-fluid">
+        <script src="../public/style/style.js"></script>
+        <BrowserRouter>
+          <div class="row" id="content-field">
+            <div class="col-2" id="side-menu-field">
+              <SideMenu />
             </div>
-          </BrowserRouter>
-        </div>
+            <div class="col-10" id="main-content-field">
+              <Routes>
+                <Route path="/home" element={<EditRedmineVersion />} />
+                <Route path="/create-redmine-version" element={<CreateRedmineVersion />} />
+                <Route path="/list-redmine-version" element={<ListRedmineVersion callback={this.transitionToVersionDetailPage}/>} />
+                <Route path="/edit-redmine-version" element={<EditRedmineVersion id={this.state.id}/>}/>
+                <Route path="/list-task" element={<ListTask callback={this.transitionToCreateTaskPage} />} />
+                <Route path="/create-task" element={<CreateTask id={this.state.task_id} />} />
+                <Route path="/management" element={<Management />} />
+                <Route path="/reports" element={<Reports />} />
+                <Route path="/config" element={<Config />} />
+                <Route path="/config-redmine" element={<ConfigRedmine />} />
+              </Routes>
+            </div>
+          </div>
+        </BrowserRouter>
+      </div>
     );
   }
 }

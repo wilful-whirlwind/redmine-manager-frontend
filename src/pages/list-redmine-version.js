@@ -4,8 +4,9 @@ import {SectionLabel} from "../components/section-label/section-label";
 import {Message} from "../components/message/message";
 import {Link, useNavigate} from "react-router-dom";
 import {InputText} from "../components/input-text/input-text";
+import {AbstractPage} from "./abstract-page";
 
-export class ListRedmineVersion extends React.Component {
+export class ListRedmineVersion extends AbstractPage {
     constructor(props) {
         super(props);
         const versionList = window.electronAPI.getRedmineVersionList();

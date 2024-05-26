@@ -2,8 +2,9 @@ import React from "react";
 import {TitleLabel} from "../components/title-label/title-label";
 import {SectionLabel} from "../components/section-label/section-label";
 import {Message} from "../components/message/message";
+import {AbstractPage} from "./abstract-page";
 
-export class ConfigRedmine extends React.Component {
+export class ConfigRedmine extends AbstractPage {
     constructor(props) {
         super(props);
         const redmineConfig = window.electronAPI.getRedmineTrackerList();

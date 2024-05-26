@@ -6,8 +6,9 @@ import {Message} from "../components/message/message";
 import Datetime from 'react-datetime';
 import "react-datetime/css/react-datetime.css";
 import {TemplateTicketTree} from "../components/template-ticket-tree/template-ticket-tree";
+import {AbstractPage} from "./abstract-page";
 
-export class CreateRedmineVersion extends React.Component {
+export class CreateRedmineVersion extends AbstractPage {
     constructor(props) {
         super(props);
         this.state = {

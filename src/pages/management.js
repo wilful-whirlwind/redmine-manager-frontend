@@ -3,8 +3,9 @@ import {TitleLabel} from "../components/title-label/title-label";
 import {SectionLabel} from "../components/section-label/section-label";
 import {InputText} from "../components/input-text/input-text";
 import {Message} from "../components/message/message";
+import {AbstractPage} from "./abstract-page";
 
-export class Management extends React.Component {
+export class Management extends AbstractPage {
     constructor(props) {
         super(props);
         this.state = {
