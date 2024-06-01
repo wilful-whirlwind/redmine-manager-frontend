@@ -19,14 +19,29 @@ export class InputText extends React.Component {
         } else {
             this.maxLength = props.maxLength;
         }
-        this.state = { callback : this.props.callback};
-        this.value = props.value ?? "";
+        this.state = {
+            callback : this.props.callback,
+            value : props.value ?? ""
+        };
         this.bindValue = this.bindValue.bind(this);
+    }
+
+    shouldComponentUpdate(nextProps, nextState, nextContext) {
+        if (this.state.value === nextProps.value) {
+            return false;
+        }
+        const state = {
+            value: nextProps.value
+        }
+        this.setState(state);
+        return true;
     }
 
     bindValue(event) {
         this.state.callback(this.id, event.target.value);
-        this.value = event.target.value;
+        this.setState({
+            value: event.target.value
+        })
     }
 
     render() {
@@ -38,7 +53,7 @@ export class InputText extends React.Component {
                 id={this.id}
                 name={this.name}
                 maxLength={this.maxLength}
-                value={this.value}
+                value={this.state.value}
             />
         );
     }

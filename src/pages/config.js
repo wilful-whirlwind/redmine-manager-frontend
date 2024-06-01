@@ -1,4 +1,4 @@
-import React, {useRef} from "react";
+import React from "react";
 import {TitleLabel} from "../components/title-label/title-label";
 import {SectionLabel} from "../components/section-label/section-label";
 import {InputText} from "../components/input-text/input-text";
@@ -8,8 +8,8 @@ import {AbstractPage} from "./abstract-page";
 export class Config extends AbstractPage {
     constructor(props) {
         super(props);
-        const savedConfigInfo = window.electronAPI.loadConfig();
-        let defaultConfigInfo = {
+        this.getInputTextValue = this.getInputTextValue.bind(this);
+        this.state = {
             basicAuthUserId: "",
             basicAuthPassWord: "",
             redmineUri: "",
@@ -28,12 +28,28 @@ export class Config extends AbstractPage {
             slackMailAddressForNoticeToCS: "",
             platformAPIAccessToken: ""
         };
-        for (let key in savedConfigInfo) {
-            defaultConfigInfo[key] = savedConfigInfo[key];
-        }
-        this.state = defaultConfigInfo;
-        this.getInputTextValue = this.getInputTextValue.bind(this);
     }
+
+    async componentDidMount() {
+        const savedConfigInfo = await window.electronAPI.loadConfig();
+        let keyOrigin = '';
+        for (let key in savedConfigInfo) {
+            if (['gasGetListAPIEndPointWEB', 'gasPostScheduleAPIEndPointWEB'].includes(key)) {
+                keyOrigin = key;
+                key = key.replace('WEB', '');
+            } else {
+                keyOrigin = key;
+            }
+            savedConfigInfo[key] = savedConfigInfo[keyOrigin];
+        }
+        this.setSyncState(savedConfigInfo);
+    }
+
+    setSyncState(defaultConfigInfo) {
+        console.log(defaultConfigInfo);
+        this.setState(defaultConfigInfo);
+    }
+
 
     //stateの値を更新するコールバック関数
     getInputTextValue( name, value ){
@@ -64,7 +80,7 @@ export class Config extends AbstractPage {
                     </tr>
                     <tr>
                         <th>
-                            パスワード
+                        パスワード
                         </th>
                         <td>
                             <InputText id="basicAuthPassWord" callback={this.getInputTextValue} value={this.state.basicAuthPassWord}/>
