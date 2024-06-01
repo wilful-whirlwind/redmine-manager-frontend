@@ -3,7 +3,7 @@ import './index.css';
 import {CreateRedmineVersion} from "./pages/create-redmine-version";
 import {Config} from "./pages/config";
 import {SideMenu} from "./components/side-menu/side-menu";
-import {BrowserRouter, Route, Routes} from "react-router-dom";
+import {HashRouter, Route, Routes} from "react-router-dom";
 import {Management} from "./pages/management";
 import {ListTask} from "./pages/list-task";
 import {CreateTask} from "./pages/create-task";
@@ -13,6 +13,7 @@ import {ListRedmineVersion} from "./pages/list-redmine-version";
 import {EditRedmineVersion} from "./pages/edit-redmine-version";
 import {LoginForm} from "./components/login-form/login-form";
 import {AbstractPage} from "./pages/abstract-page";
+import {Home} from "./pages/home";
 
 class Top extends AbstractPage {
   constructor(props) {
@@ -25,6 +26,12 @@ class Top extends AbstractPage {
     this.renderLoginPageStructure = this.renderLoginPageStructure.bind(this);
     this.renderLoginForm = this.renderLoginForm.bind(this);
     this.login = this.login.bind(this);
+  }
+
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    if (this.state.isLogin) {
+      window.location.href = "#/home";
+    }
   }
 
   transitionToVersionDetailPage(name, value) {
@@ -44,14 +51,14 @@ class Top extends AbstractPage {
   renderLoginPageStructure() {
     if (this.state.isLogin) {
       return (
-          <BrowserRouter>
+          <HashRouter>
             <div class="row" id="content-field">
               <div class="col-2" id="side-menu-field">
                 <SideMenu />
               </div>
               <div class="col-10" id="main-content-field">
                 <Routes>
-                  <Route path="/home" element={<EditRedmineVersion />} />
+                  <Route path="/home" element={<Home />} />
                   <Route path="/create-redmine-version" element={<CreateRedmineVersion />} />
                   <Route path="/list-redmine-version" element={<ListRedmineVersion callback={this.transitionToVersionDetailPage}/>} />
                   <Route path="/edit-redmine-version" element={<EditRedmineVersion id={this.state.id}/>}/>
@@ -64,7 +71,7 @@ class Top extends AbstractPage {
                 </Routes>
               </div>
             </div>
-          </BrowserRouter>
+          </HashRouter>
       );
     } else {
       return (this.renderLoginForm());

@@ -6,10 +6,11 @@ export class SideMenu extends React.Component {
     constructor(props) {
         super(props);
     }
+
     render() {
         return (
             <div class="flex-shrink-0 p-3 text-white bg-dark" id="side-menu">
-                <Link to="home"
+                <Link id="home" to="home"
                    class="d-flex align-items-center pb-3 mb-3 link-dark text-decoration-none border-bottom">
                     <span class="fs-5 fw-semibold text-white">Project Management Helper</span>
                 </Link>
