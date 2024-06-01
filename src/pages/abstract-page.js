@@ -15,18 +15,18 @@ export class AbstractPage extends React.Component {
                     return trackerList.data;
                 },
                 getRedmineVersionList: async function () {
-                    let versionList = await axios.get('http://localhost:8081/versions');
+                    let versionList = await axios.get('https://localhost:8081/versions');
                     return versionList.data;
                 },
                 loadConfig: async function () {
-                    let configList = await axios.get('http://localhost:8081/config');
+                    let configList = await axios.get('https://localhost:8081/config');
                     return configList.data;
                 },
                 saveConfig: async function(data) {
-                    return await axios.post('http://localhost:8081/config', data);
+                    return await axios.post('https://localhost:8081/config', data);
                 },
                 authUser: async function(userName, password) {
-                    let userInfo = await axios.post('http://localhost:8081/auth', {
+                    let userInfo = await axios.post('https://localhost:8081/auth', {
                         user_name: userName,
                         password: password
                     });
