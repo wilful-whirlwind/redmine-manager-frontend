@@ -14,12 +14,22 @@ import {EditRedmineVersion} from "./pages/edit-redmine-version";
 import {LoginForm} from "./components/login-form/login-form";
 import {AbstractPage} from "./pages/abstract-page";
 import {Home} from "./pages/home";
+import { instanceOf } from 'prop-types';
+import { withCookies, Cookies } from 'react-cookie';
+
 
 class Top extends AbstractPage {
+
+  static propTypes = {
+    cookies: instanceOf(Cookies).isRequired,
+  };
+
   constructor(props) {
     super(props);
+    const { cookies } = props;
+
     this.state = {
-      isLogin: false
+      userId: cookies.get('user_id') || -1
     };
     this.transitionToVersionDetailPage = this.transitionToVersionDetailPage.bind(this);
     this.transitionToCreateTaskPage = this.transitionToCreateTaskPage.bind(this);
@@ -29,7 +39,7 @@ class Top extends AbstractPage {
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
-    if (this.state.isLogin) {
+    if (this.state.userId > 0) {
       window.location.href = "#/home";
     }
   }
@@ -49,7 +59,7 @@ class Top extends AbstractPage {
   }
 
   renderLoginPageStructure() {
-    if (this.state.isLogin) {
+    if (this.state.userId > 0) {
       return (
           <HashRouter>
             <div class="row" id="content-field">
@@ -78,10 +88,14 @@ class Top extends AbstractPage {
     }
   }
 
-  login() {
+  login(user) {
     let state = {
-      isLogin: true
+      userId: user.Id
     };
+    const { cookies } = this.props;
+    console.log(user);
+    cookies.set('user_id', user.Id, { path: '/' });
+
     this.setState(state);
   }
 
@@ -101,4 +115,4 @@ class Top extends AbstractPage {
 
 // ========================================
 
-export default Top
+export default withCookies(Top)

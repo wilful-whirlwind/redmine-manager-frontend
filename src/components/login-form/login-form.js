@@ -27,8 +27,8 @@ export class LoginForm extends React.Component {
     async authUser() {
        const result = await window.electronAPI.authUser(this.state.user_name, this.state.password);
        if (result.status === "success") {
-           if (result.result) {
-               this.props.callback();
+           if (result.user) {
+               this.props.callback(result.user);
            }
        }
     }

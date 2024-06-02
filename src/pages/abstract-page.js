@@ -30,6 +30,13 @@ export class AbstractPage extends React.Component {
                         user_name: userName,
                         password: password
                     });
+                    console.log(userInfo);
+                    return userInfo.data;
+                },
+                isLogin: async function(userId) {
+                    let userInfo = await axios.post('https://localhost:8081/is_login', {
+                        user_id: userId,
+                    });
                     return userInfo.data;
                 }
             };
