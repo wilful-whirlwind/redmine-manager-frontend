@@ -36,6 +36,7 @@ class Top extends AbstractPage {
     this.renderLoginPageStructure = this.renderLoginPageStructure.bind(this);
     this.renderLoginForm = this.renderLoginForm.bind(this);
     this.login = this.login.bind(this);
+    this.logout = this.logout.bind(this);
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
@@ -64,7 +65,7 @@ class Top extends AbstractPage {
           <HashRouter>
             <div class="row" id="content-field">
               <div class="col-2" id="side-menu-field">
-                <SideMenu />
+                <SideMenu callback={this.logout}/>
               </div>
               <div class="col-10" id="main-content-field">
                 <Routes>
@@ -97,6 +98,12 @@ class Top extends AbstractPage {
     cookies.set('user_id', user.Id, { path: '/' });
 
     this.setState(state);
+  }
+
+  logout() {
+    const { cookies } = this.props;
+    cookies.remove('user_id');
+    window.location.reload();
   }
 
   renderLoginForm() {

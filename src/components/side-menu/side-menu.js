@@ -97,6 +97,15 @@ export class SideMenu extends React.Component {
                         </div>
                     </li>
                 </ul>
+                <div style={{
+                    position: 'absolute',
+                    height: '90%'
+                }}>
+                    <button className={'btn btn-dark'} type={'button'} onClick={this.props.callback} style={{
+                        position: 'relative',
+                        top: '65%'
+                    }}>Log Out</button>
+                </div>
             </div>
         );
     }
