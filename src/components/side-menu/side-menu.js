@@ -7,11 +7,39 @@ export class SideMenu extends React.Component {
         super(props);
     }
 
+    renderForWeb() {
+        if (window.electronAPI.getEnv() === "APP") {
+            return (<></>);
+        }
+        return (
+            <li>
+                <button className="btn btn-toggle align-items-center rounded collapsed text-white"
+                        data-bs-toggle="collapse" data-bs-target="#home-collapse" aria-expanded="true">
+                    Master
+                </button>
+                <div className="collapse" id="home-collapse">
+                    <ul className="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                        <li>
+                            <Link to="master-user" class="nav-link text-white rounded">
+                                User
+                            </Link>
+                        </li>
+                        <li>
+                            <Link to="master-project" class="nav-link text-white rounded">
+                                Project
+                            </Link>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+        );
+    }
+
     render() {
         return (
             <div class="flex-shrink-0 p-3 text-white bg-dark" id="side-menu">
                 <Link id="home" to="home"
-                   class="d-flex align-items-center pb-3 mb-3 link-dark text-decoration-none border-bottom">
+                      class="d-flex align-items-center pb-3 mb-3 link-dark text-decoration-none border-bottom">
                     <span class="fs-5 fw-semibold text-white">Project Management Helper</span>
                 </Link>
                 <ul class="nav nav-pills flex-column mb-auto">
@@ -24,7 +52,7 @@ export class SideMenu extends React.Component {
                             <ul className="btn-toggle-nav list-unstyled fw-normal pb-1 small">
                                 <li>
                                     <Link to="create-redmine-version" class="nav-link text-white rounded">
-                                        Create Project
+                                    Create Project
                                     </Link>
                                 </li>
                                 <li>
@@ -33,7 +61,8 @@ export class SideMenu extends React.Component {
                                     </Link>
                                 </li>
                                 <li className="invisible-list">
-                                    <Link id="id-edit" to="edit-redmine-version" class="nav-link text-white rounded"></Link>
+                                    <Link id="id-edit" to="edit-redmine-version"
+                                          class="nav-link text-white rounded"></Link>
                                 </li>
                             </ul>
                         </div>
@@ -76,6 +105,7 @@ export class SideMenu extends React.Component {
                             </ul>
                         </div>
                     </li>
+                    {this.renderForWeb()}
                     <li>
                         <button className="btn btn-toggle align-items-center rounded collapsed text-white"
                                 data-bs-toggle="collapse" data-bs-target="#home-collapse" aria-expanded="true">
@@ -104,7 +134,8 @@ export class SideMenu extends React.Component {
                     <button className={'btn btn-dark'} type={'button'} onClick={this.props.callback} style={{
                         position: 'relative',
                         top: '65%'
-                    }}>Log Out</button>
+                    }}>Log Out
+                    </button>
                 </div>
             </div>
         );

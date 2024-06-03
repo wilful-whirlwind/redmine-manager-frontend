@@ -6,6 +6,9 @@ export class AbstractPage extends React.Component {
         super(props);
         if (typeof window.electronAPI === "undefined") {
             window.electronAPI = {
+                getEnv: function() {
+                    return "WEB";
+                },
                 getTrackerList: async function(resolve, reject){
                     let trackerList = await axios.get('http://localhost:8081/trackers');
                     return trackerList.data;
@@ -33,12 +36,6 @@ export class AbstractPage extends React.Component {
                     console.log(userInfo);
                     return userInfo.data;
                 },
-                isLogin: async function(userId) {
-                    let userInfo = await axios.post('https://localhost:8081/is_login', {
-                        user_id: userId,
-                    });
-                    return userInfo.data;
-                }
             };
         }
     }

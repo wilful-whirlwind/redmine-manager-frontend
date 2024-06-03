@@ -16,6 +16,8 @@ import {AbstractPage} from "./pages/abstract-page";
 import {Home} from "./pages/home";
 import { instanceOf } from 'prop-types';
 import { withCookies, Cookies } from 'react-cookie';
+import {MasterUser} from "./pages/master-user";
+import {MasterProject} from "./pages/master-project";
 
 
 class Top extends AbstractPage {
@@ -67,7 +69,9 @@ class Top extends AbstractPage {
               <div class="col-2" id="side-menu-field">
                 <SideMenu callback={this.logout}/>
               </div>
-              <div class="col-10" id="main-content-field">
+              <div class="col-10" id="main-content-field" style={{
+                paddingLeft: "10px"
+              }}>
                 <Routes>
                   <Route path="/home" element={<Home />} />
                   <Route path="/create-redmine-version" element={<CreateRedmineVersion />} />
@@ -77,6 +81,8 @@ class Top extends AbstractPage {
                   <Route path="/create-task" element={<CreateTask id={this.state.task_id} />} />
                   <Route path="/management" element={<Management />} />
                   <Route path="/reports" element={<Reports />} />
+                  <Route path="/master-user" element={<MasterUser />} />
+                  <Route path="/master-project" element={<MasterProject />} />
                   <Route path="/config" element={<Config />} />
                   <Route path="/config-redmine" element={<ConfigRedmine />} />
                 </Routes>
