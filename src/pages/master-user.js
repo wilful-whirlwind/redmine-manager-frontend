@@ -1,37 +1,59 @@
-import React, {useRef} from "react";
+import React, {useEffect, useState} from "react";
 import {TitleLabel} from "../components/title-label/title-label";
-import {SectionLabel} from "../components/section-label/section-label";
-import {InputText} from "../components/input-text/input-text";
-import {Message} from "../components/message/message";
-import {AbstractPage} from "./abstract-page";
 
-export class MasterUser extends AbstractPage {
-    constructor(props) {
-        super(props);
-        this.state = {
-            majorVersion: "",
-            minorVersion: "",
-            maintenanceVersion: "",
-            developmentPeriodFrom: "",
-            developmentPeriodTo: "",
-            qaPeriodFrom: "",
-            qaPeriodTo: "",
-            releaseDate: ""
+export function MasterUser() {
+    const [userList, setUserList] = useState([]);
+    // useEffectの引数の関数はasyncにしないこと！ 別画面に遷移したときにエラーになる。
+    useEffect(() => {
+        const callFunc = async function() {
+            const result = await window.electronAPI.getUserList();
+            if (result.status === 'success') {
+                setUserList(result.userList);
+            }
         }
-        this.getInputTextValue = this.getInputTextValue.bind(this);
+        callFunc();
+    }, []);
+    console.log(userList);
+
+    const renderRow = function(userList) {
+        const rows = userList.map((user) =>
+            <tr key={user.id}>
+                <td>
+                    <a className="btn btn-link" href={user.url}>
+                        {user.Id}
+                    </a>
+                </td>
+                <td>
+                    <a className="btn btn-link" href={user.url}>
+                        {user.Name}
+                    </a>
+                </td>
+                <td>
+                {user.MailAddress}
+                </td>
+            </tr>
+        );
+
+        return (
+            <table className="table mgr-tbl" id="task-list">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Mail Address</th>
+                </tr>
+                </thead>
+                <tbody>
+                {rows}
+                </tbody>
+            </table>
+        )
     }
 
-    //stateのcountの値を更新するコールバック関数
-    getInputTextValue( name, value ){
-        let state = {};
-        state[name] = value;
-        this.setState(state) ;
-    }
-    render() {
-        return (
-            <div class="content-main">
-                <TitleLabel label="User List" />
-            </div>
-        );
-    }
+    return (
+        <div class="content-main">
+            <TitleLabel label="User List" />
+            {renderRow(userList)}
+        </div>
+    );
 }

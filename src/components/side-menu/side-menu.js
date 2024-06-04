@@ -14,10 +14,10 @@ export class SideMenu extends React.Component {
         return (
             <li>
                 <button className="btn btn-toggle align-items-center rounded collapsed text-white"
-                        data-bs-toggle="collapse" data-bs-target="#home-collapse" aria-expanded="true">
+                        data-bs-toggle="collapse" data-bs-target="#master-collapse" aria-expanded="true">
                     Master
                 </button>
-                <div className="collapse" id="home-collapse">
+                <div className="collapse" id="master-collapse">
                     <ul className="btn-toggle-nav list-unstyled fw-normal pb-1 small">
                         <li>
                             <Link to="master-user" class="nav-link text-white rounded">
@@ -108,10 +108,10 @@ export class SideMenu extends React.Component {
                     {this.renderForWeb()}
                     <li>
                         <button className="btn btn-toggle align-items-center rounded collapsed text-white"
-                                data-bs-toggle="collapse" data-bs-target="#home-collapse" aria-expanded="true">
+                                data-bs-toggle="collapse" data-bs-target="#config-collapse" aria-expanded="true">
                             Config
                         </button>
-                        <div className="collapse" id="home-collapse">
+                        <div className="collapse" id="config-collapse">
                             <ul className="btn-toggle-nav list-unstyled fw-normal pb-1 small">
                                 <li>
                                     <Link to="config" class="nav-link text-white rounded">

@@ -2,6 +2,7 @@ import React from "react";
 import {TitleLabel} from "../components/title-label/title-label";
 import {InputText} from "../components/input-text/input-text";
 import {AbstractPage} from "./abstract-page";
+import {Link} from "react-router-dom";
 
 export class ListTask extends AbstractPage {
     constructor(props) {
@@ -122,9 +123,7 @@ export class ListTask extends AbstractPage {
                         </button>
                     </td>
                     <td>
-                        <a href={"0"} className="btn btn-outline-secondary" onClick={this.bindValue}>
-                            タスクの追加
-                        </a>
+                        <Link className="btn btn-outline-secondary" to="/list-task/create-task">タスクの追加</Link>
                     </td>
                     <td></td>
                 </tr>

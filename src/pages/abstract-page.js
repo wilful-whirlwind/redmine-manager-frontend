@@ -10,11 +10,11 @@ export class AbstractPage extends React.Component {
                     return "WEB";
                 },
                 getTrackerList: async function(resolve, reject){
-                    let trackerList = await axios.get('http://localhost:8081/trackers');
+                    let trackerList = await axios.get('https://localhost:8081/trackers');
                     return trackerList.data;
                 },
                 getRedmineTrackerList: async function(resolve, reject){
-                    let trackerList = await axios.get('http://localhost:8081/trackers');
+                    let trackerList = await axios.get('https://localhost:8081/trackers');
                     return trackerList.data;
                 },
                 getRedmineVersionList: async function () {
@@ -36,6 +36,10 @@ export class AbstractPage extends React.Component {
                     console.log(userInfo);
                     return userInfo.data;
                 },
+                getUserList: async function() {
+                    const userList = await axios.get('https://localhost:8081/user');
+                    return userList.data;
+                }
             };
         }
     }

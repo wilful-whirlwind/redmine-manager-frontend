@@ -78,7 +78,7 @@ class Top extends AbstractPage {
                   <Route path="/list-redmine-version" element={<ListRedmineVersion callback={this.transitionToVersionDetailPage}/>} />
                   <Route path="/edit-redmine-version" element={<EditRedmineVersion id={this.state.id}/>}/>
                   <Route path="/list-task" element={<ListTask callback={this.transitionToCreateTaskPage} />} />
-                  <Route path="/create-task" element={<CreateTask id={this.state.task_id} />} />
+                  <Route path="/list-task/create-task" element={<CreateTask id={this.state.task_id} />} />
                   <Route path="/management" element={<Management />} />
                   <Route path="/reports" element={<Reports />} />
                   <Route path="/master-user" element={<MasterUser />} />
