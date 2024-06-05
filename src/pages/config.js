@@ -40,7 +40,7 @@ export class Config extends AbstractPage {
             } else {
                 keyOrigin = key;
             }
-            savedConfigInfo[key] = savedConfigInfo[keyOrigin];
+            savedConfigInfo[key] = savedConfigInfo[keyOrigin].Value;
         }
         this.setSyncState(savedConfigInfo);
     }
