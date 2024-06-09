@@ -18,6 +18,7 @@ import { instanceOf } from 'prop-types';
 import { withCookies, Cookies } from 'react-cookie';
 import {MasterUser} from "./pages/master-user";
 import {MasterProject} from "./pages/master-project";
+import {EditUser} from "./pages/edit-user";
 
 
 class Top extends AbstractPage {
@@ -47,7 +48,7 @@ class Top extends AbstractPage {
     }
   }
 
-  transitionToVersionDetailPage(name, value) {
+  transitionToVersionDetailPage(name, value, key) {
     let state = {};
     state[name] = value;
     this.setState(state);
@@ -82,6 +83,7 @@ class Top extends AbstractPage {
                   <Route path="/management" element={<Management />} />
                   <Route path="/reports" element={<Reports />} />
                   <Route path="/master-user" element={<MasterUser />} />
+                  <Route path="/master-user/edit-user" element={<EditUser id={this.state.user_id}/>} />
                   <Route path="/master-project" element={<MasterProject />} />
                   <Route path="/config" element={<Config />} />
                   <Route path="/config-redmine" element={<ConfigRedmine />} />

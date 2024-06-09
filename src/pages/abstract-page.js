@@ -39,6 +39,15 @@ export class AbstractPage extends React.Component {
                 getUserList: async function() {
                     const userList = await axios.get('https://localhost:8081/user');
                     return userList.data;
+                },
+                updateUser: async function(userId, userName, mailAddress) {
+                    let userInfo = await axios.post('https://localhost:8081/user', {
+                        id: userId,
+                        user_name: userName,
+                        mail_address: mailAddress
+                    });
+                    console.log(userInfo);
+                    return userInfo.data;
                 }
             };
         }

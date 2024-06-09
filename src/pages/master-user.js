@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from "react";
 import {TitleLabel} from "../components/title-label/title-label";
+import {Link} from "react-router-dom";
 
 export function MasterUser() {
     const [userList, setUserList] = useState([]);
@@ -19,9 +20,9 @@ export function MasterUser() {
         const rows = userList.map((user) =>
             <tr key={user.id}>
                 <td>
-                    <a className="btn btn-link" href={user.url}>
+                    <Link to={'edit-user'} className="btn btn-link" state={{ id: user.Id }}>
                         {user.Id}
-                    </a>
+                    </Link>
                 </td>
                 <td>
                     <a className="btn btn-link" href={user.url}>
