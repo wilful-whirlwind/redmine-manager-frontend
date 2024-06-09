@@ -61,4 +61,13 @@ export class AbstractPage extends React.Component {
             this.setState(state);
         }.bind((this));
     }
+
+    loadingStart() {
+        document.getElementById('loading').style.display = 'block';
+    }
+
+    loadingEnd(message = "") {
+        document.getElementById('loading').style.display = 'none';
+
+    }
 }

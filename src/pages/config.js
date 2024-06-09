@@ -31,6 +31,7 @@ export class Config extends AbstractPage {
     }
 
     async componentDidMount() {
+        this.loadingStart();
         const savedConfigInfo = await window.electronAPI.loadConfig();
         let keyOrigin = '';
         for (let key in savedConfigInfo) {
@@ -43,6 +44,7 @@ export class Config extends AbstractPage {
             savedConfigInfo[key] = savedConfigInfo[keyOrigin].Value;
         }
         this.setSyncState(savedConfigInfo);
+        this.loadingEnd();
     }
 
     setSyncState(defaultConfigInfo) {
@@ -60,7 +62,9 @@ export class Config extends AbstractPage {
     }
 
     async send() {
+        this.loadingStart();
         await window.electronAPI.saveConfig(this.state);
+        this.loadingEnd();
     }
 
     render() {

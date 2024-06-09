@@ -19,6 +19,7 @@ import { withCookies, Cookies } from 'react-cookie';
 import {MasterUser} from "./pages/master-user";
 import {MasterProject} from "./pages/master-project";
 import {EditUser} from "./pages/edit-user";
+import {Loading} from "./components/loading/loading";
 
 
 class Top extends AbstractPage {
@@ -90,6 +91,7 @@ class Top extends AbstractPage {
                 </Routes>
               </div>
             </div>
+            <Loading />
           </HashRouter>
       );
     } else {

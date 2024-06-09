@@ -1,14 +1,17 @@
 import React, {useEffect, useState} from "react";
 import {TitleLabel} from "../components/title-label/title-label";
 import { useLocation } from "react-router-dom";
+import {AbstractPage} from "./abstract-page";
 
 export function EditUser() {
+    const abstractPage = new AbstractPage();
     const location = useLocation();
     const id = location.state.id;
     const [name, setUserName] = useState();
     const [mailAddress, setMailAddress] = useState();
     useEffect(() => {
         const callFunc = async function() {
+            abstractPage.loadingStart();
             const result = await window.electronAPI.getUserList();
             if (result.status === 'success') {
                 const userList = result.userList;
@@ -21,12 +24,15 @@ export function EditUser() {
                     break;
                 }
             }
+            abstractPage.loadingEnd();
         }
         callFunc();
     }, []);
 
     const updateUser = async (e) => {
+        abstractPage.loadingStart();
         await window.electronAPI.updateUser(id, name, mailAddress);
+        abstractPage.loadingEnd();
     };
 
     return (
