@@ -41,13 +41,18 @@ export class AbstractPage extends React.Component {
                     return userList.data;
                 },
                 updateUser: async function(userId, userName, mailAddress) {
-                    let userInfo = await axios.post('https://localhost:8081/user', {
+                    return await axios.post('https://localhost:8081/user', {
                         id: userId,
                         user_name: userName,
                         mail_address: mailAddress
                     });
-                    console.log(userInfo);
-                    return userInfo.data;
+                },
+                createUser: async function(userName, mailAddress, password) {
+                    return await axios.post('https://localhost:8081/user', {
+                        user_name: userName,
+                        mail_address: mailAddress,
+                        password: password
+                    });
                 }
             };
         }
@@ -68,6 +73,10 @@ export class AbstractPage extends React.Component {
 
     loadingEnd(message = "") {
         document.getElementById('loading').style.display = 'none';
+    }
 
+    showMessage(message) {
+        document.getElementById('modal-open').click();
+        document.getElementById('modal-body-default').innerHTML = message;
     }
 }

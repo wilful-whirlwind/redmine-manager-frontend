@@ -12,6 +12,9 @@ export class Message extends React.Component {
         this.bindValue = this.bindValue.bind(this);
         this.toggleVisible = this.toggleVisible.bind(this);
     }
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        this.bindValue(this.props);
+    }
 
     bindValue(props) {
         this.state = props;

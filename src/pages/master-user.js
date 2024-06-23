@@ -36,24 +36,31 @@ export function MasterUser() {
         );
 
         return (
-            <table className="table mgr-tbl" id="task-list">
-                <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Name</th>
-                    <th>Mail Address</th>
-                </tr>
-                </thead>
-                <tbody>
-                {rows}
-                </tbody>
-            </table>
+            <>
+                <div>
+                    <Link to={'edit-user'} className="btn btn-link" state={{ id: -1 }}>
+                        ユーザの追加
+                    </Link>
+                </div>
+                <table className="table mgr-tbl" id="task-list">
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Mail Address</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {rows}
+                    </tbody>
+                </table>
+            </>
         )
     }
 
     return (
         <div class="content-main">
-            <TitleLabel label="User List" />
+            <TitleLabel label="User List"/>
             {renderRow(userList)}
         </div>
     );

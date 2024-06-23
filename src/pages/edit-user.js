@@ -6,9 +6,12 @@ import {AbstractPage} from "./abstract-page";
 export function EditUser() {
     const abstractPage = new AbstractPage();
     const location = useLocation();
-    const id = location.state.id;
+    const id_prop = location.state.id;
+    const [id, setId] = useState(id_prop);
     const [name, setUserName] = useState();
     const [mailAddress, setMailAddress] = useState();
+    const [password, setPassword] = useState();
+    const btnLabel = id > 0 ? "更新" : "登録";
     useEffect(() => {
         const callFunc = async function() {
             abstractPage.loadingStart();
@@ -26,14 +29,49 @@ export function EditUser() {
             }
             abstractPage.loadingEnd();
         }
-        callFunc();
+        if (id > 0) {
+            callFunc();
+        }
     }, []);
 
     const updateUser = async (e) => {
+        let message = "";
         abstractPage.loadingStart();
-        await window.electronAPI.updateUser(id, name, mailAddress);
+        if (id > 0) {
+            await window.electronAPI.updateUser(id, name, mailAddress);
+            message = "更新しました";
+        } else {
+           const result = await window.electronAPI.createUser(name, mailAddress, password);
+           console.log(result);
+           if (result.data.status === "success") {
+               setId(result.data.user.Id);
+               message = "登録しました";
+           }
+        }
         abstractPage.loadingEnd();
+        abstractPage.showMessage(message);
     };
+
+    const setPasswordForm = () => {
+        if (id < 0) {
+            return (
+                <tr>
+                    <th>Password</th>
+                    <td>
+                        <input
+                            type={"password"}
+                            className={"form-control"}
+                            name={'password'}
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                        />
+                    </td>
+                </tr>
+            );
+        } else {
+            return (<></>);
+        }
+    }
 
     return (
         <div className="content-main">
@@ -66,10 +104,13 @@ export function EditUser() {
                         />
                     </td>
                 </tr>
+                {setPasswordForm()}
                 </tbody>
             </table>
             <div>
-                <button onClick={updateUser} className={'btn btn-outline-secondary'}>更新</button>
+                <button onClick={updateUser} className={'btn btn-outline-secondary'}>
+                    {btnLabel}
+                </button>
             </div>
         </div>
     );

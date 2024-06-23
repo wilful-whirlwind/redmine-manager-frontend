@@ -20,6 +20,8 @@ import {MasterUser} from "./pages/master-user";
 import {MasterProject} from "./pages/master-project";
 import {EditUser} from "./pages/edit-user";
 import {Loading} from "./components/loading/loading";
+import {Message} from "./components/message/message";
+import {MessageModal} from "./components/message-modal/message-modal";
 
 
 class Top extends AbstractPage {
@@ -92,6 +94,7 @@ class Top extends AbstractPage {
               </div>
             </div>
             <Loading />
+            <MessageModal />
           </HashRouter>
       );
     } else {
