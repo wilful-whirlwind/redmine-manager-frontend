@@ -80,7 +80,7 @@ export function EditUser() {
                 <tbody>
                 <tr>
                     <th>ID</th>
-                    <td>{id}</td>
+                    <td>{id > 0 ? id : "-"}</td>
                 </tr>
                 <tr>
                     <th>Name</th>
