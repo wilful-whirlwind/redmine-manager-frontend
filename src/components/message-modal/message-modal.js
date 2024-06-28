@@ -15,6 +15,7 @@ export function MessageModal() {
         setDisplay('block');
     };
 
+
     return (
         <div
             id={'message-modal'}

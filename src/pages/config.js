@@ -233,7 +233,6 @@ export class Config extends AbstractPage {
                     </tbody>
                 </table>
                 <button className="btn btn-outline-primary" onClick={() => this.send()}>登録</button>
-                <Message message="設定しました。" id="fine"></Message>
             </div>
         );
     }

@@ -68,34 +68,39 @@ class Top extends AbstractPage {
   renderLoginPageStructure() {
     if (this.state.userId > 0) {
       return (
-          <HashRouter>
-            <div class="row" id="content-field">
-              <div class="col-2" id="side-menu-field">
-                <SideMenu callback={this.logout}/>
-              </div>
-              <div class="col-10" id="main-content-field" style={{
-                paddingLeft: "10px"
-              }}>
-                <Routes>
-                  <Route path="/home" element={<Home />} />
-                  <Route path="/create-redmine-version" element={<CreateRedmineVersion />} />
-                  <Route path="/list-redmine-version" element={<ListRedmineVersion callback={this.transitionToVersionDetailPage}/>} />
-                  <Route path="/edit-redmine-version" element={<EditRedmineVersion id={this.state.id}/>}/>
-                  <Route path="/list-task" element={<ListTask callback={this.transitionToCreateTaskPage} />} />
-                  <Route path="/list-task/create-task" element={<CreateTask id={this.state.task_id} />} />
-                  <Route path="/management" element={<Management />} />
-                  <Route path="/reports" element={<Reports />} />
-                  <Route path="/master-user" element={<MasterUser />} />
-                  <Route path="/master-user/edit-user" element={<EditUser id={this.state.user_id}/>} />
-                  <Route path="/master-project" element={<MasterProject />} />
-                  <Route path="/config" element={<Config />} />
-                  <Route path="/config-redmine" element={<ConfigRedmine />} />
-                </Routes>
-              </div>
+        <HashRouter>
+          <div className="row" id="content-field" style={{
+            paddingBottom: "10px"
+          }}>
+            <div className="col-2" id="side-menu-field">
+              <SideMenu callback={this.logout}/>
             </div>
-            <Loading />
-            <MessageModal />
-          </HashRouter>
+            <div className="col-10" id="main-content-field" style={{
+              paddingLeft: "10px",
+              overflowY: "scroll",
+              height: "100%",
+              paddingBottom: "10px"
+            }}>
+              <Routes>
+                <Route path="/home" element={<Home />} />
+                <Route path="/create-redmine-version" element={<CreateRedmineVersion />} />
+                <Route path="/list-redmine-version" element={<ListRedmineVersion callback={this.transitionToVersionDetailPage}/>} />
+                <Route path="/edit-redmine-version" element={<EditRedmineVersion id={this.state.id}/>}/>
+                <Route path="/list-task" element={<ListTask callback={this.transitionToCreateTaskPage} />} />
+                <Route path="/list-task/create-task" element={<CreateTask id={this.state.task_id} />} />
+                <Route path="/management" element={<Management />} />
+                <Route path="/reports" element={<Reports />} />
+                <Route path="/master-user" element={<MasterUser />} />
+                <Route path="/master-user/edit-user" element={<EditUser id={this.state.user_id}/>} />
+                <Route path="/master-project" element={<MasterProject />} />
+                <Route path="/config" element={<Config />} />
+                <Route path="/config-redmine" element={<ConfigRedmine />} />
+              </Routes>
+            </div>
+          </div>
+          <Loading />
+          <MessageModal />
+        </HashRouter>
       );
     } else {
       return (this.renderLoginForm());
