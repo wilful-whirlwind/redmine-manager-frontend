@@ -1,26 +1,39 @@
 import React from "react";
 import {TitleLabel} from "../components/title-label/title-label";
 import {SectionLabel} from "../components/section-label/section-label";
-import {Message} from "../components/message/message";
 import {AbstractPage} from "./abstract-page";
 
 export class ConfigRedmine extends AbstractPage {
     constructor(props) {
         super(props);
-        const redmineConfig = window.electronAPI.getRedmineTrackerList();
-        console.log(redmineConfig);
-        this.redmineTrackerList = redmineConfig.redmineTrackerList ?? [];
-        this.state = {};
 
         this.saveInfo = this.saveInfo.bind(this);
-        this.getInputTextValue = this.getInputTextValue.bind(this);
         this.saveTrackerId = this.saveTrackerId.bind(this);
         this.saveTrackerMonHoursDivision = this.saveTrackerMonHoursDivision.bind(this);
         this.send = this.send.bind(this);
         this.initializeTrackerInfo = this.initializeTrackerInfo.bind(this);
+        this.renderTrackerTable = this.renderTrackerTable.bind(this);
+        this.state = {
+            "redmineTrackerList": [],
+            "man-hours_division": [],
+            "tracker_id": 0,
+        };
+    }
 
-        this.state["man-hours_division"] = this.initializeTrackerInfo(redmineConfig.redmineTrackerList, redmineConfig.trackerMonHoursDivisionList, "0");
-        this.state["tracker_id"] = this.initializeTrackerInfo(redmineConfig.redmineTrackerList, redmineConfig.trackerActiveList, false);
+    async componentDidMount() {
+        this.loadingStart();
+        await this.setValues()
+        this.loadingEnd();
+    }
+
+    async setValues() {
+        const redmineConfig = await window.electronAPI.getRedmineTrackerList();
+        console.log(redmineConfig);
+        let state = {};
+        state["redmineTrackerList"] = redmineConfig.redmineTrackerList ?? {};
+        state["man-hours_division"] = this.initializeTrackerInfo(redmineConfig.redmineTrackerList, redmineConfig.trackerMonHoursDivisionList, "0");
+        state["tracker_id"] = this.initializeTrackerInfo(redmineConfig.redmineTrackerList, redmineConfig.trackerActiveList, false);
+        this.setState(state);
     }
 
     initializeTrackerInfo(redmineTrackerList, trackerInfoList, defaultValue) {
@@ -50,13 +63,6 @@ export class ConfigRedmine extends AbstractPage {
         return trackerInfoList;
     }
 
-    //stateのcountの値を更新するコールバック関数
-    getInputTextValue( name, value ){
-        let state = {};
-        state[name] = value;
-        this.setState(state);
-    }
-
     async send() {
         await window.electronAPI.saveRedmineConfig(this.state);
     }
@@ -81,28 +87,40 @@ export class ConfigRedmine extends AbstractPage {
     }
 
     renderTrackerTable() {
-        const rows = this.redmineTrackerList.map((redmineTracker,index) =>
-            <tr key={redmineTracker.id}>
-                <td>
-                    <input type="checkbox" name={"tracker_id_" + redmineTracker.id} checked={this.state["tracker_id"][redmineTracker.id]} onChange={this.saveTrackerId} />
-                </td>
-                <td>
-                    {redmineTracker.id}
-                </td>
-                <td>
-                    {redmineTracker.name}
-                </td>
-                <td>
-                    <select class="form-select" name={"division_" + redmineTracker.id} onChange={this.saveTrackerMonHoursDivision}>
-                        <option value="0" selected={this.state["man-hours_division"][redmineTracker.id] === "0"}>開発</option>
-                        <option value="1" selected={this.state["man-hours_division"][redmineTracker.id] === "1"}>テスト</option>
-                    </select>
-                </td>
-            </tr>
-        );
+        console.log(this.state);
+        let saveTrackerId = this.saveTrackerId;
+        let saveTrackerMonHoursDivision = this.saveTrackerMonHoursDivision;
+        let state = this.state;
+        const rows = this.state.redmineTrackerList.map( function(redmineTracker, index) {
+         return (
+             <tr key={redmineTracker.id}>
+                 <td>
+                     <input type="checkbox" name={"tracker_id_" + redmineTracker.id}
+                            checked={state["tracker_id"][redmineTracker.id]} onChange={saveTrackerId}/>
+                 </td>
+                 <td>
+                     {redmineTracker.id}
+                 </td>
+                 <td>
+                     {redmineTracker.name}
+                 </td>
+                 <td>
+                     <select className="form-select" name={"division_" + redmineTracker.id}
+                             onChange={saveTrackerMonHoursDivision}>
+                         <option value="0"
+                                 selected={state["man-hours_division"][redmineTracker.id] === "0"}>開発
+                         </option>
+                         <option value="1"
+                                 selected={state["man-hours_division"][redmineTracker.id] === "1"}>テスト
+                         </option>
+                     </select>
+                 </td>
+             </tr>
+         );
+        });
 
         return (
-            <table class="table mgr-tbl">
+            <table className="table mgr-tbl">
                 <thead>
                 <tr>
                     <th>有効</th>
@@ -120,12 +138,11 @@ export class ConfigRedmine extends AbstractPage {
 
     render() {
         return (
-            <div class="content-main">
-                <TitleLabel label="Redmine設定" />
-                <SectionLabel label="トラッカー設定" />
+            <div className="content-main">
+                <TitleLabel label="Redmine設定"/>
+                <SectionLabel label="トラッカー設定"/>
                 {this.renderTrackerTable()}
                 <button className="btn btn-outline-primary" onClick={() => this.send()}>登録</button>
-                <Message message="設定しました。" id="fine"></Message>
             </div>
         );
     }

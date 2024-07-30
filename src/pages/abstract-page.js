@@ -28,6 +28,9 @@ export class AbstractPage extends React.Component {
                 saveConfig: async function(data) {
                     return await axios.post('https://localhost:8081/config', data);
                 },
+                saveRedmineConfig: async function(data) {
+                    return await axios.post('https://localhost:8081/redmine_config', data);
+                },
                 authUser: async function(userName, password) {
                     let userInfo = await axios.post('https://localhost:8081/auth', {
                         user_name: userName,
